@@ -1,6 +1,7 @@
 import React from "react";
+import Order from "./order";
 
-function Cards({ item }) {
+function Card({ item }) {
   return (
     <>
       <div className="mt-4 my-3 p-3">
@@ -16,9 +17,7 @@ function Cards({ item }) {
             <p>{item.title}</p>
             <div className="card-actions justify-between">
               <div className="badge badge-outline">${item.price}</div>
-              <div className=" cursor-pointer px-2 py-1 rounded-full border-[2px] hover:bg-pink-500 hover:text-white duration-200">
-                Buy Now
-              </div>
+              <Order item={item} />
             </div>
           </div>
         </div>
@@ -27,4 +26,4 @@ function Cards({ item }) {
   );
 }
 
-export default Cards;
+export default Card;
