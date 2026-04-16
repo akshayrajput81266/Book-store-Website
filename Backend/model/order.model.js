@@ -5,11 +5,11 @@ const orderSchema = new mongoose.Schema({
   bookId: String,
   bookName: String,
   price: Number,
-  name: String,      // ✅ Add karo
-  address: String,   // ✅ Add karo
-  phone: String,     // ✅ Add karo
-  payment: String,   // ✅ Add karo
-  status: { type: String, default: "pending" },
+  name: String,      
+  address: String,   
+  phone: String,     
+  payment: String,   
+  status: { type: String, default: "Pending" },
   createdAt: { type: Date, default: Date.now }
 });
 

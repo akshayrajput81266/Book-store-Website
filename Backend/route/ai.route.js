@@ -50,7 +50,7 @@ Task:
     const recommendedBooks = books.filter((book) =>
       bookIds.includes(book._id.toString())
     );
-    console.log("✅ Recommended books count:", recommendedBooks.length);
+    console.log(" Recommended books count:", recommendedBooks.length);
 
     res.json({ books: recommendedBooks });
   } catch (error) {

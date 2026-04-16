@@ -30,10 +30,14 @@ function OrderModal({ item, onClose }) {
         address: formData.address,
         phone: formData.phone,
         payment: formData.payment,
+        status: "Pending", // ✅ Capital P
       };
-      const res = await axios.post("http://localhost:4001/order", orderInfo);
+      const res = await axios.post(
+        "http://localhost:4001/api/orders", // ✅ URL fix
+        orderInfo
+      );
       if (res.data) {
-        toast.success("Order placed successfully! 🎉");
+        toast.success("Order placed successfully!");
         onClose();
       }
     } catch (error) {
@@ -46,15 +50,13 @@ function OrderModal({ item, onClose }) {
   return (
     <dialog id="order_modal" className="modal modal-open">
       <div className="modal-box">
-        {/* Close button */}
         <button
           className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
           onClick={onClose}
         >✕</button>
 
-        <h3 className="font-bold text-lg mb-4">Order Details 📦</h3>
+        <h3 className="font-bold text-lg mb-4">Order Details</h3>
 
-        {/* Book info */}
         <div className="flex items-center gap-3 mb-4 p-3 bg-base-200 rounded-lg dark:bg-slate-700">
           <img src={item.image} className="w-16 h-16 object-cover rounded" />
           <div>
@@ -66,7 +68,6 @@ function OrderModal({ item, onClose }) {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-3">
-          {/* Name */}
           <div>
             <label className="label">Full Name</label>
             <input
@@ -80,7 +81,6 @@ function OrderModal({ item, onClose }) {
             />
           </div>
 
-          {/* Phone */}
           <div>
             <label className="label">Phone Number</label>
             <input
@@ -95,7 +95,6 @@ function OrderModal({ item, onClose }) {
             />
           </div>
 
-          {/* Address */}
           <div>
             <label className="label">Delivery Address</label>
             <textarea
@@ -109,7 +108,6 @@ function OrderModal({ item, onClose }) {
             />
           </div>
 
-          {/* Payment */}
           <div>
             <label className="label">Payment Method</label>
             <div className="flex gap-4">
@@ -122,7 +120,7 @@ function OrderModal({ item, onClose }) {
                   onChange={handleChange}
                   className="radio radio-primary"
                 />
-                {/*Cash on Delivery */}
+                Cash on Delivery
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -138,12 +136,11 @@ function OrderModal({ item, onClose }) {
             </div>
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             className="btn bg-pink-500 text-white hover:bg-pink-700 w-full mt-2"
           >
-            {loading ? "Placing Order..." : "Place Order 🛒"}
+            {loading ? "Placing Order..." : "Place Order"}
           </button>
         </form>
       </div>

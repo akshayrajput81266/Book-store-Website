@@ -18,7 +18,6 @@ function Order({ item }) {
   const deliveryCharge = item.price > 0 ? 10 : 0;
   const totalAmount = item.price + deliveryCharge;
 
-  
   useEffect(() => {
     if (showForm) {
       document.body.style.overflow = "hidden";
@@ -47,7 +46,7 @@ function Order({ item }) {
         totalAmount: totalAmount,
         ...formData,
       };
-      const res = await axios.post("http://localhost:4001/order", orderInfo);
+      const res = await axios.post("http://localhost:4001/api/orders", orderInfo);
       if (res.data) {
         toast.success("Order placed successfully! 🎉");
         setShowForm(false);
@@ -76,7 +75,6 @@ function Order({ item }) {
         Buy Now
       </button>
 
-      
       {showForm &&
         ReactDOM.createPortal(
           <div
@@ -148,56 +146,54 @@ function Order({ item }) {
                   {item.price === 0 ? "Free" : `₹${item.price}`}
                 </p>
 
-                {/*  Delivery Charge & Total */}
+                {/* Delivery Charge & Total — sirf paid books ke liye */}
                 {item.price > 0 && (
-                  <>
-                    <div
+                  <div
+                    style={{
+                      borderTop: "1px dashed #d1d5db",
+                      marginTop: "8px",
+                      paddingTop: "8px",
+                    }}
+                  >
+                    <p
                       style={{
-                        borderTop: "1px dashed #d1d5db",
-                        marginTop: "8px",
-                        paddingTop: "8px",
+                        color: "#6b7280",
+                        fontSize: "13px",
+                        marginBottom: "4px",
+                        display: "flex",
+                        justifyContent: "space-between",
                       }}
                     >
-                      <p
-                        style={{
-                          color: "#6b7280",
-                          fontSize: "13px",
-                          marginBottom: "4px",
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <span>Book Price</span>
-                        <span>₹{item.price}</span>
-                      </p>
-                      <p
-                        style={{
-                          color: "#6b7280",
-                          fontSize: "13px",
-                          marginBottom: "4px",
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <span>🚚 Delivery Charge</span>
-                        <span>₹{deliveryCharge}</span>
-                      </p>
-                      <p
-                        style={{
-                          fontWeight: "700",
-                          fontSize: "15px",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          borderTop: "1px solid #d1d5db",
-                          paddingTop: "6px",
-                          marginTop: "4px",
-                        }}
-                      >
-                        <span>Total</span>
-                        <span style={{ color: "#ec4899" }}>₹{totalAmount}</span>
-                      </p>
-                    </div>
-                  </>
+                      <span>Book Price</span>
+                      <span>₹{item.price}</span>
+                    </p>
+                    <p
+                      style={{
+                        color: "#6b7280",
+                        fontSize: "13px",
+                        marginBottom: "4px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span> Delivery Charge</span>
+                      <span>₹{deliveryCharge}</span>
+                    </p>
+                    <p
+                      style={{
+                        fontWeight: "700",
+                        fontSize: "15px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        borderTop: "1px solid #d1d5db",
+                        paddingTop: "6px",
+                        marginTop: "4px",
+                      }}
+                    >
+                      <span>Total</span>
+                      <span style={{ color: "#ec4899" }}>₹{totalAmount}</span>
+                    </p>
+                  </div>
                 )}
               </div>
 
@@ -297,36 +293,36 @@ function Order({ item }) {
                   />
                 </div>
 
-                {/* Payment */}
-                <div style={{ marginBottom: "16px" }}>
-                  <label
-                    style={{
-                      display: "block",
-                      marginBottom: "4px",
-                      fontWeight: "500",
-                      fontSize: "14px",
-                    }}
-                  >
-                    Payment Method
-                  </label>
-                  <select
-                    name="payment"
-                    value={formData.payment}
-                    onChange={handleChange}
-                    style={{
-                      width: "100%",
-                      padding: "8px 12px",
-                      border: "1px solid #d1d5db",
-                      borderRadius: "6px",
-                      outline: "none",
-                      boxSizing: "border-box",
-                      fontSize: "14px",
-                    }}
-                  >
-                    <option value="COD">Cash on Delivery</option>
-                    <option value="Online">Online Payment</option>
-                  </select>
-                </div>
+                {item.price > 0 && (
+                  <div style={{ marginBottom: "16px" }}>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: "4px",
+                        fontWeight: "500",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Payment Method
+                    </label>
+                    <select
+                      name="payment"
+                      value={formData.payment}
+                      onChange={handleChange}
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid #d1d5db",
+                        borderRadius: "6px",
+                        outline: "none",
+                        boxSizing: "border-box",
+                        fontSize: "14px",
+                      }}
+                    >
+                      <option value="COD">Cash on Delivery</option>
+                    </select>
+                  </div>
+                )}
 
                 {/* Submit */}
                 <button
@@ -344,7 +340,11 @@ function Order({ item }) {
                     fontSize: "16px",
                   }}
                 >
-                  {loading ? "Placing Order..." : `Place Order ₹${totalAmount} 🎉`}
+                  {loading
+                    ? "Placing Order..."
+                    : item.price === 0
+                    ? "Get Free Book "
+                    : `Place Order ₹${totalAmount} `}
                 </button>
               </form>
             </div>

@@ -14,7 +14,7 @@ function Navbar() {
 
   const element = document.documentElement;
 
-  //  Dark mode properly apply hoga Tailwind dark: classes ke saath
+  
   useEffect(() => {
     if (theme === "dark") {
       element.classList.add("dark");
