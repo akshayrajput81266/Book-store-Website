@@ -14,7 +14,7 @@ router.get("/admin/all", async (req, res) => {
   }
 });
 
-router.patch("/admin/:id/status", async (req, res) => {
+router.patch("/admin/:id/status", async (req, res) => {3
   try {
     const { status } = req.body;
     if (!["Pending", "Delivered"].includes(status)) {
