@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { useAuth } from "../context/AuthProvider";
 import toast from "react-hot-toast";
 import axios from "axios";
+import BASE_URL from "../utils/config.js";
 
 function Order({ item }) {
   const [authUser] = useAuth();
@@ -46,7 +47,7 @@ function Order({ item }) {
         totalAmount: totalAmount,
         ...formData,
       };
-      const res = await axios.post("http://localhost:4001/api/orders", orderInfo);
+      const res = await axios.post(`${BASE_URL}/api/orders`, orderInfo);
       if (res.data) {
         toast.success("Order placed successfully! 🎉");
         setShowForm(false);

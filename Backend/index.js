@@ -14,12 +14,15 @@ import aiRoute from "./route/ai.route.js";
 import adminAuthRoute from "./route/admin.auth.route.js";
 
 dotenv.config();
-const app = express()
+const app = express();
 
+//  CORS fix
+const allowedOrigins = process.env.FRONTEND_URL || "http://localhost:5173";
 app.use(cors({
   origin: allowedOrigins,
   credentials: true
 }));
+
 app.use(express.json());
 
 const port = process.env.PORT || 4001;
@@ -38,8 +41,8 @@ app.use("/user", userRoute);
 app.use("/api/orders", orderRoute);
 app.use("/api/contact", contactRoute);
 app.use("/api/ai", aiRoute);
-app.use("/api/admin", adminAuthRoute); 
+app.use("/api/admin", adminAuthRoute);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});

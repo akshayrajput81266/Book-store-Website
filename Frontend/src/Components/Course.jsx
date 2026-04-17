@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import Order from "./Order";
+import BASE_URL from "../utils/config.js";
 
 function Course() {
   const [books, setBooks] = useState([]);
@@ -29,7 +30,7 @@ function Course() {
     const fetchBooks = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:4001/book");
+        const res = await axios.get(`${BASE_URL}/book`);
         setBooks(res.data);
       } catch (error) {
         console.error("Books fetch error:", error);
@@ -57,7 +58,7 @@ function Course() {
     try {
       setAiLoading(true);
       setAiSearched(false);
-      const res = await axios.post("http://localhost:4001/api/ai/search", {
+      const res = await axios.post(`${BASE_URL}/api/ai/search`, {
         query: aiQuery,
       });
       setAiBooks(res.data.books);

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import BASE_URL from "../utils/config.js";
 
 export default function AdminLogin() {
   const [form, setForm]       = useState({ email: "", password: "" });
@@ -13,7 +14,7 @@ export default function AdminLogin() {
     setLoading(true);
     setError("");
     try {
-      const res = await axios.post("http://localhost:4001/api/admin/login", form);
+      const res = await axios.post(`${BASE_URL}/api/admin/login`, form);
       localStorage.setItem("adminToken", res.data.token);
       localStorage.setItem("adminInfo", JSON.stringify(res.data.admin));
       navigate("/");

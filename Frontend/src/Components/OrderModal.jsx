@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthProvider";
 import toast from "react-hot-toast";
 import axios from "axios";
+import BASE_URL from "../utils/config.js";
 
 function OrderModal({ item, onClose }) {
   const [authUser] = useAuth();
@@ -33,7 +34,7 @@ function OrderModal({ item, onClose }) {
         status: "Pending", // ✅ Capital P
       };
       const res = await axios.post(
-        "http://localhost:4001/api/orders", // ✅ URL fix
+        `${BASE_URL}/api/orders`, // ✅ URL fix
         orderInfo
       );
       if (res.data) {

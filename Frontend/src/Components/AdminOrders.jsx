@@ -163,7 +163,7 @@ export default function AdminOrders() {
             </thead>
             <tbody>
               {filtered.map((order) => {
-                // ✅ order.model.js ke exact fields use ho rahe hain
+                //  order.model.js ke exact fields use ho rahe hain
                 const cfg          = STATUS_CONFIG[order.status] || STATUS_CONFIG.Pending;
                 const customerName = order.name || order.userId || "—";
                 const customerPhone= order.phone || "—";

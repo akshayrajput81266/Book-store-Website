@@ -4,6 +4,7 @@ import Login from "./Login";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import toast from "react-hot-toast";
+import BASE_URL from "../utils/config.js";
 
 function Signup() {
   const location = useLocation();
@@ -22,7 +23,7 @@ function Signup() {
       password: data.password,
     };
     await axios
-      .post("http://localhost:4001/user/signup", userInfo) 
+      .post(`${BASE_URL}/user/signup`, userInfo) 
       .then((res) => {
         console.log(res.data);
         if (res.data) {

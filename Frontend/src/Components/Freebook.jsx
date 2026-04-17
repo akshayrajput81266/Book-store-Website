@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "./Card";
+import BASE_URL from "../utils/config.js";
 
 function Freebook() {
   const [book, setBook] = useState([]);
@@ -8,7 +9,7 @@ function Freebook() {
   useEffect(() => {
     const getBook = async () => {
       try {
-        const res = await axios.get("http://localhost:4001/book");
+        const res = await axios.get(`${BASE_URL}/book`);
         const data = res.data.filter((data) => data.category === "Free");
         setBook(data);
       } catch (error) {
