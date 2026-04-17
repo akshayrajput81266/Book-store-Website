@@ -20,7 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 const port = process.env.Port || 4000;
-const URI = process.env.MongoDBURI;
+const URI = process.env.MONGODBURI;
 
 try {
   await mongoose.connect(URI);
