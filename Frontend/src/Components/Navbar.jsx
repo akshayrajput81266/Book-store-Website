@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import Login from "./Login";
 import Logout from "./Logout";
 import { useAuth } from "../context/AuthProvider";
@@ -60,13 +60,13 @@ function Navbar() {
   const navItems = (
     <>
       <li>
-        <Link href="/">Home</Link>
+        <Link to="/">Home</Link>
       </li>
       <li>
-        <Link href="/course">Course</Link>
+        <Link to="/course">Course</Link>
       </li>
       <li>
-        <Link href="/contact">Contact</Link>
+        <Link to="/contact">Contact</Link>
       </li>
     </>
   );
