@@ -1,11 +1,9 @@
 import dns from "dns";
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
-
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-
 import bookRoute from "./route/book.route.js";
 import userRoute from "./route/user.route.js";
 import orderRoute from "./route/order.route.js";
@@ -16,8 +14,9 @@ import adminAuthRoute from "./route/admin.auth.route.js";
 dotenv.config();
 const app = express();
 
-//  CORS fix
-const allowedOrigins = process.env.FRONTEND_URL || "http://https://singh-book-store-website.onrender.com";
+// ✅ CORS fix
+const allowedOrigins = process.env.FRONTEND_URL || "https://singh-book-store-website.onrender.com";
+
 app.use(cors({
   origin: allowedOrigins,
   credentials: true
@@ -35,7 +34,7 @@ try {
   console.log("Error: ", error);
 }
 
-// defining routes
+// Routes
 app.use("/book", bookRoute);
 app.use("/user", userRoute);
 app.use("/api/orders", orderRoute);
