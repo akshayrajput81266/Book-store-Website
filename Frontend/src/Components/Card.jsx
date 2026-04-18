@@ -1,5 +1,5 @@
 import React from "react";
-import Order from "./order";
+import Order from "./Order";
 
 function Card({ item }) {
   return (

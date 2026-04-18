@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { useAuth } from "../context/AuthProvider";
+import { useAuth } from "../context/AuthProvider.jsx";
 import toast from "react-hot-toast";
 import axios from "axios";
 import BASE_URL from "../utils/config.js";
