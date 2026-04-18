@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
-const API_BASE = "http://localhost:4001/api/orders";
+const API_BASE = `${API_BASE}/api/orders`;
 
 const STATUS_CONFIG = {
   Pending:   { color: "#F59E0B", bg: "#FEF3C7", dot: "#D97706", label: "Pending" },
