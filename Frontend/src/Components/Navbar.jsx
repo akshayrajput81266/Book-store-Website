@@ -60,13 +60,13 @@ function Navbar() {
   const navItems = (
     <>
       <li>
-        <a href="/">Home</a>
+        <Link href="/">Home</Link>
       </li>
       <li>
-        <a href="/course">Course</a>
+        <Link href="/course">Course</Link>
       </li>
       <li>
-        <a href="/contact">Contact</a>
+        <Link href="/contact">Contact</Link>
       </li>
     </>
   );
