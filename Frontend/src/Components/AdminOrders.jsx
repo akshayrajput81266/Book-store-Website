@@ -1,11 +1,19 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import BASE_URL from "../utils/config.js";
 
-const API_BASE = `${API_BASE}/api/orders`;
+const API_BASE = `${BASE_URL}/api/orders`;
 
 const STATUS_CONFIG = {
   Pending:   { color: "#F59E0B", bg: "#FEF3C7", dot: "#D97706", label: "Pending" },
   Delivered: { color: "#10B981", bg: "#D1FAE5", dot: "#059669", label: "Delivered" },
+};
+
+// ✅ Case-insensitive status config
+const getStatusConfig = (status) => {
+  const s = status?.toLowerCase();
+  if (s === "delivered") return STATUS_CONFIG.Delivered;
+  return STATUS_CONFIG.Pending;
 };
 
 export default function AdminOrders() {
@@ -43,7 +51,10 @@ export default function AdminOrders() {
 
   useEffect(() => {
     let result = [...orders];
-    if (statusFilter !== "All") result = result.filter((o) => o.status === statusFilter);
+    // ✅ Fix 1: Case-insensitive filter
+    if (statusFilter !== "All") result = result.filter((o) =>
+      o.status?.toLowerCase() === statusFilter.toLowerCase()
+    );
     if (search.trim()) {
       const q = search.toLowerCase();
       result = result.filter(
@@ -76,8 +87,9 @@ export default function AdminOrders() {
   };
 
   const totalOrders    = orders.length;
-  const pendingCount   = orders.filter((o) => o.status === "Pending").length;
-  const deliveredCount = orders.filter((o) => o.status === "Delivered").length;
+  // ✅ Fix 2: Case-insensitive count
+  const pendingCount   = orders.filter((o) => o.status?.toLowerCase() === "pending").length;
+  const deliveredCount = orders.filter((o) => o.status?.toLowerCase() === "delivered").length;
 
   const formatDate = (d) =>
     d ? new Date(d).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }) : "—";
@@ -117,7 +129,7 @@ export default function AdminOrders() {
       <div style={styles.filtersRow}>
         <input
           type="text"
-          placeholder="  Search by name, phone, book, order ID..."
+          placeholder="🔍  Search by name, phone, book, order ID..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={styles.searchInput}
@@ -148,7 +160,7 @@ export default function AdminOrders() {
         </div>
       ) : filtered.length === 0 ? (
         <div style={styles.emptyBox}>
-          <p style={{ fontSize: 32 }}></p>
+          <p style={{ fontSize: 32 }}>📦</p>
           <p style={{ color: "#9CA3AF", marginTop: 8 }}>Koi order nahi mila</p>
         </div>
       ) : (
@@ -163,8 +175,8 @@ export default function AdminOrders() {
             </thead>
             <tbody>
               {filtered.map((order) => {
-                //  order.model.js ke exact fields use ho rahe hain
-                const cfg          = STATUS_CONFIG[order.status] || STATUS_CONFIG.Pending;
+                // ✅ Fix 3: getStatusConfig use karo
+                const cfg          = getStatusConfig(order.status);
                 const customerName = order.name || order.userId || "—";
                 const customerPhone= order.phone || "—";
                 const bookName     = order.bookName || "—";
@@ -185,7 +197,7 @@ export default function AdminOrders() {
                       <div style={styles.customerEmail}>{customerPhone}</div>
                     </td>
                     <td style={styles.td}>
-                      <span style={styles.itemCount}> {bookName}</span>
+                      <span style={styles.itemCount}>📚 {bookName}</span>
                     </td>
                     <td style={styles.td}><strong>{formatPrice(total)}</strong></td>
                     <td style={styles.td}>{formatDate(order.createdAt)}</td>
@@ -198,7 +210,7 @@ export default function AdminOrders() {
                     <td style={styles.td}>
                       <div style={styles.actionBtns}>
                         <button onClick={() => setSelectedOrder(order)} style={styles.viewBtn}>View</button>
-                        {order.status === "Pending" ? (
+                        {order.status?.toLowerCase() === "pending" ? (
                           <button
                             onClick={() => updateStatus(order._id, "Delivered")}
                             disabled={updatingId === order._id}
@@ -225,7 +237,6 @@ export default function AdminOrders() {
         </div>
       )}
 
-      {/* Detail Modal */}
       {selectedOrder && (
         <div style={styles.overlay} onClick={() => setSelectedOrder(null)}>
           <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
@@ -237,8 +248,6 @@ export default function AdminOrders() {
               <button onClick={() => setSelectedOrder(null)} style={styles.closeBtn}>✕</button>
             </div>
             <div style={styles.modalBody}>
-
-              {/* Customer Info */}
               <div style={styles.section}>
                 <h3 style={styles.sectionTitle}>👤 Customer Info</h3>
                 <div style={styles.infoGrid}>
@@ -248,8 +257,6 @@ export default function AdminOrders() {
                   <InfoRow label="Payment" value={selectedOrder.payment || "—"} />
                 </div>
               </div>
-
-              {/* Book Info */}
               <div style={styles.section}>
                 <h3 style={styles.sectionTitle}>📚 Book Info</h3>
                 <div style={styles.itemRow}>
@@ -260,8 +267,6 @@ export default function AdminOrders() {
                   <p style={styles.itemPrice}>{formatPrice(selectedOrder.price)}</p>
                 </div>
               </div>
-
-              {/* Summary */}
               <div style={styles.summaryBox}>
                 <div style={styles.summaryRow}>
                   <span>Order Date</span>
@@ -273,7 +278,7 @@ export default function AdminOrders() {
                 </div>
                 <div style={styles.summaryRow}>
                   <span>Status</span>
-                  <span style={{ color: STATUS_CONFIG[selectedOrder.status]?.color || "#6B7280", fontWeight: 600 }}>
+                  <span style={{ color: getStatusConfig(selectedOrder.status)?.color || "#6B7280", fontWeight: 600 }}>
                     {selectedOrder.status}
                   </span>
                 </div>
@@ -284,10 +289,8 @@ export default function AdminOrders() {
                   </span>
                 </div>
               </div>
-
-              {/* Action */}
               <div style={styles.modalAction}>
-                {selectedOrder.status === "Pending" ? (
+                {selectedOrder.status?.toLowerCase() === "pending" ? (
                   <button
                     onClick={() => updateStatus(selectedOrder._id, "Delivered")}
                     disabled={updatingId === selectedOrder._id}
@@ -305,7 +308,6 @@ export default function AdminOrders() {
                   </button>
                 )}
               </div>
-
             </div>
           </div>
         </div>
