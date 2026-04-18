@@ -117,7 +117,7 @@ export default function AdminOrders() {
       <div style={styles.filtersRow}>
         <input
           type="text"
-          placeholder="🔍  Search by name, phone, book, order ID..."
+          placeholder="  Search by name, phone, book, order ID..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={styles.searchInput}
@@ -148,7 +148,7 @@ export default function AdminOrders() {
         </div>
       ) : filtered.length === 0 ? (
         <div style={styles.emptyBox}>
-          <p style={{ fontSize: 32 }}>📦</p>
+          <p style={{ fontSize: 32 }}></p>
           <p style={{ color: "#9CA3AF", marginTop: 8 }}>Koi order nahi mila</p>
         </div>
       ) : (
@@ -185,7 +185,7 @@ export default function AdminOrders() {
                       <div style={styles.customerEmail}>{customerPhone}</div>
                     </td>
                     <td style={styles.td}>
-                      <span style={styles.itemCount}>📚 {bookName}</span>
+                      <span style={styles.itemCount}> {bookName}</span>
                     </td>
                     <td style={styles.td}><strong>{formatPrice(total)}</strong></td>
                     <td style={styles.td}>{formatDate(order.createdAt)}</td>
